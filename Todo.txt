@@ -1,0 +1,20 @@
+Functionality:
+Add				Done
+Edit				Done
+Delete				Done
+
+Validations			Done
+Confirmations	
+Search
+Filter
+
+Quantity
+Description
+
+Mark as done
+
+Add weather widget
+
+Change theme
+
+Version control
