@@ -4,20 +4,23 @@ import ModalConfirmDelete from "./modals/ModalConfirmDelete";
 
 interface Props {
   list: List;
-  handleListSelection: (list: List) => void;
   deleteList: (listToDelete: List) => void;
-  handleEdit: (listToEdit: List) => void;
+  setSelectedEditList: React.Dispatch<React.SetStateAction<List | null>>;
+  onSelect: (list: List) => void;
 }
 
 export default function SingleList({
   list,
-  handleListSelection,
   deleteList,
-  handleEdit,
+  setSelectedEditList,
+  onSelect,
 }: Props) {
   const [showConfirmation, setShowConfirmation] = useState<boolean>(false);
 
-  // useEffect(() => {}, [showConfirmation]);
+  const handleEdit = (listToEdit: List) => {
+    setSelectedEditList(listToEdit);
+    $("#changeListModal").modal("show");
+  };
 
   const handleDeleteClick = () => {
     setShowConfirmation(true);
@@ -38,7 +41,7 @@ export default function SingleList({
       <a
         href="#"
         className={`list-group-item list-group-item-action ${selected}`}
-        onClick={() => handleListSelection(list)}
+        onClick={() => onSelect(list)}
       >
         <div className="d-flex w-100 justify-content-between align-items-center">
           <p>{list.name}</p>

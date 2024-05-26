@@ -17,17 +17,16 @@ export const Main = ({ listArray, setListArray }: Props) => {
   const [selectedList, setSelectedList] = useState<List | null>(null);
   const [selectedEditList, setSelectedEditList] = useState<List | null>(null);
   const [selectedEditItem, setSelectedEditItem] = useState<Item | null>(null);
-  const [selectedDeleteList, setSelectedDeleteList] = useState<List | null>(
-    null
-  );
-
-  useEffect(() => {
-    $("#confirmDeleteModal").modal("show");
-  }, [selectedDeleteList]);
 
   useEffect(() => {
     $("#editListModal").modal("show");
   }, [selectedEditList]);
+
+  const selectList = (list: List) => {
+    if (selectedList) selectedList.isSelected = false;
+    setSelectedList(list);
+    list.isSelected = true;
+  };
 
   const addItemToList = (item: string) => {
     if (selectedList) {
@@ -47,7 +46,6 @@ export const Main = ({ listArray, setListArray }: Props) => {
     const updatedLists = listArray.filter(
       (list) => list.id !== listToDelete.id
     );
-    setSelectedDeleteList(null);
     setSelectedList(null);
     setListArray(updatedLists);
   };
@@ -66,21 +64,6 @@ export const Main = ({ listArray, setListArray }: Props) => {
     }
   };
 
-  const handleDelete = (toDelete: List) => {
-    setSelectedDeleteList(toDelete);
-  };
-
-  const cancelDelete = () => {
-    setSelectedDeleteList(null);
-  };
-
-  const dummyFunc = () => {};
-
-  // $(`#confirmDeleteModal`).on("hide.bs.modal", function () {
-  //   cancelDelete();
-  // });
-
-  // console.log(selectedDeleteList);
   return (
     <section className="container">
       <div className="row">
@@ -96,11 +79,9 @@ export const Main = ({ listArray, setListArray }: Props) => {
 
           <MyLists
             listArray={listArray}
-            setListArray={setListArray}
-            selectedList={selectedList}
-            setSelectedList={setSelectedList}
             setSelectedEditList={setSelectedEditList}
             deleteList={deleteList}
+            onSelect={selectList}
           />
           <button
             className="big-plus"
@@ -122,11 +103,9 @@ export const Main = ({ listArray, setListArray }: Props) => {
           {selectedList ? (
             <div>
               <Items
-                listArray={listArray}
-                setListArray={setListArray}
                 selectedList={selectedList}
-                setSelectedList={setSelectedList}
                 setSelectedEditItem={setSelectedEditItem}
+                deleteItem={deleteItem}
               />
               <button
                 className="big-plus"
@@ -159,7 +138,6 @@ export const Main = ({ listArray, setListArray }: Props) => {
         />
       )}
       {selectedList && <ModalAddItem addItemToList={addItemToList} />}
-      {/* <ModalConfirmDelete onDelete={dummyFunc} onCancel={dummyFunc} /> */}
     </section>
   );
 };

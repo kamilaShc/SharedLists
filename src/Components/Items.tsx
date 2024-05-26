@@ -1,40 +1,17 @@
-import { useState } from "react";
 import { Item, List } from "../model";
 import SingleItem from "./SingleItem";
-import ModalConfirmDelete from "./modals/ModalConfirmDelete";
 
 interface Props {
   selectedList: List;
-  listArray: List[];
-  setSelectedList: React.Dispatch<React.SetStateAction<List | null>>;
-  setListArray: React.Dispatch<React.SetStateAction<List[]>>;
   setSelectedEditItem: React.Dispatch<React.SetStateAction<Item | null>>;
+  deleteItem: (item: Item) => void;
 }
 
 export default function Items({
   selectedList,
-  listArray,
-  setListArray,
   setSelectedEditItem,
-  setSelectedList,
+  deleteItem,
 }: Props) {
-  const deleteItem = (itemToDelete: Item) => {
-    const updatedItems = selectedList.items.filter(
-      (item) => item.id !== itemToDelete.id
-    );
-    const updatedList = { ...selectedList, items: updatedItems };
-    const updatedListArray = listArray.map((list) =>
-      list.id === selectedList.id ? updatedList : list
-    );
-    setSelectedList(updatedList);
-    setListArray(updatedListArray);
-  };
-
-  const handleEdit = (item: Item) => {
-    setSelectedEditItem(item);
-    $("#changeItemModal").modal("show");
-  };
-
   return (
     <div className="items">
       {selectedList ? (
@@ -43,7 +20,7 @@ export default function Items({
             selectedList.items.map((item) => (
               <SingleItem
                 key={item.id}
-                handleEdit={handleEdit}
+                setSelectedEditItem={setSelectedEditItem}
                 deleteItem={deleteItem}
                 item={item}
               />

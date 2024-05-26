@@ -4,12 +4,21 @@ import ModalConfirmDelete from "./modals/ModalConfirmDelete";
 
 interface Props {
   item: Item;
-  handleEdit: (item: Item) => void;
   deleteItem: (item: Item) => void;
+  setSelectedEditItem: React.Dispatch<React.SetStateAction<Item | null>>;
 }
 
-export default function SingleItem({ item, handleEdit, deleteItem }: Props) {
+export default function SingleItem({
+  item,
+  setSelectedEditItem,
+  deleteItem,
+}: Props) {
   const [showConfirmation, setShowConfirmation] = useState<boolean>(true);
+
+  const handleEdit = (item: Item) => {
+    setSelectedEditItem(item);
+    $("#changeItemModal").modal("show");
+  };
 
   const handleDeleteClick = () => {
     setShowConfirmation(true);
@@ -45,7 +54,7 @@ export default function SingleItem({ item, handleEdit, deleteItem }: Props) {
               className="fa-solid fa-trash"
               data-toggle="modal"
               data-target="#confirmDeleteModal"
-              onClick={(event) => {
+              onClick={() => {
                 // event.stopPropagation();
                 handleDeleteClick();
               }}
