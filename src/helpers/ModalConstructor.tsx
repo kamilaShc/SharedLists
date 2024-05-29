@@ -54,9 +54,14 @@ export default function ModalConstructor({
             </button>
           </div>
           <div className="modal-body">
-            <form id={formId} onSubmit={(e) => handleSubmit(e)}>
-              <div className="input-div">
+            <form
+              className="form-inline"
+              id={formId}
+              onSubmit={(e) => handleSubmit(e)}
+            >
+              <div className="form-group input-div">
                 <input
+                  className="form-control"
                   name="listName"
                   value={name}
                   onChange={handleChange}

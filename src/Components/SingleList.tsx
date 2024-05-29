@@ -20,6 +20,8 @@ export default function SingleList({
   const handleEdit = (listToEdit: List) => {
     setSelectedEditList(listToEdit);
     $("#changeListModal").modal("show");
+    // document.body.classList.add("modal-open");
+    // document.getElementById("changeListModal").style.display = "block";
   };
 
   const handleDeleteClick = () => {

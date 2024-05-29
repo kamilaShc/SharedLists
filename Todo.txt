@@ -1,20 +1,19 @@
 Functionality:
-Add				Done
+Add				    Done
 Edit				Done
 Delete				Done
 
 Validations			Done
-Confirmations	
+Confirmations	    Done
 Search
 Filter
-
-Quantity
-Description
+Slect several lists/items
+Share/Export lists
 
 Mark as done
 
-Add weather widget
+Add weather widget?
 
 Change theme
 
-Version control
+Version control     Done
