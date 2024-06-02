@@ -3,10 +3,9 @@ import Items from "./Items";
 import ModalAddList from "./modals/ModalAddList";
 import ModalAddItem from "./modals/ModalAddItem";
 import { Item, List } from "../model";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import ModalChangeList from "./modals/ModalChangeList";
 import ModalChangeItem from "./modals/ModalChangeItem";
-import ModalConfirmDelete from "./modals/ModalConfirmDelete";
 
 interface Props {
   listArray: List[];
@@ -17,10 +16,6 @@ export const Main = ({ listArray, setListArray }: Props) => {
   const [selectedList, setSelectedList] = useState<List | null>(null);
   const [selectedEditList, setSelectedEditList] = useState<List | null>(null);
   const [selectedEditItem, setSelectedEditItem] = useState<Item | null>(null);
-
-  useEffect(() => {
-    $("#editListModal").modal("show");
-  }, [selectedEditList]);
 
   const selectList = (list: List) => {
     if (selectedList) selectedList.isSelected = false;
@@ -63,7 +58,7 @@ export const Main = ({ listArray, setListArray }: Props) => {
       setListArray(updatedListArray);
     }
   };
-
+  console.log("Main rendered");
   return (
     <section className="container">
       <div className="row">
@@ -126,6 +121,7 @@ export const Main = ({ listArray, setListArray }: Props) => {
           listToEdit={selectedEditList}
           listArray={listArray}
           setListArray={setListArray}
+          setSelectedEditList={setSelectedEditList}
         />
       )}
       {selectedEditItem && selectedList && (
@@ -135,6 +131,7 @@ export const Main = ({ listArray, setListArray }: Props) => {
           setSelectedList={setSelectedList}
           listArray={listArray}
           setListArray={setListArray}
+          setSelectedEditItem={setSelectedEditItem}
         />
       )}
       {selectedList && <ModalAddItem addItemToList={addItemToList} />}

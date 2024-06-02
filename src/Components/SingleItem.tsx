@@ -17,7 +17,6 @@ export default function SingleItem({
 
   const handleEdit = (item: Item) => {
     setSelectedEditItem(item);
-    $("#changeItemModal").modal("show");
   };
 
   const handleDeleteClick = () => {

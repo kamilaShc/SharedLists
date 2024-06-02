@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { validateMaxLength } from "./validation";
+import Modal from "react-bootstrap/Modal";
 
 interface Props {
   modalId: string;
@@ -10,6 +11,7 @@ interface Props {
   name: string;
   setName: React.Dispatch<React.SetStateAction<string>>;
   maxLength: number;
+  onClose: () => void;
 }
 
 export default function ModalConstructor({
@@ -21,6 +23,7 @@ export default function ModalConstructor({
   name,
   setName,
   maxLength,
+  onClose,
 }: Props) {
   const [error, setError] = useState<string>("");
 
@@ -50,7 +53,9 @@ export default function ModalConstructor({
               data-dismiss="modal"
               aria-label="Close"
             >
-              <span aria-hidden="true">&times;</span>
+              <span aria-hidden="true" onClick={onClose}>
+                &times;
+              </span>
             </button>
           </div>
           <div className="modal-body">

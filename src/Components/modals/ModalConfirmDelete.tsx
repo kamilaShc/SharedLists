@@ -4,10 +4,6 @@ interface Props {
 }
 
 export default function ModalConfirmDelete({ onDelete, onCancel }: Props) {
-  // $(`#confirmDeleteModal`).on("hide.bs.modal", function () {
-  //   onCancel();
-  // });
-
   return (
     <div className="modal" id="confirmDeleteModal" tabIndex={-1} role="dialog">
       <div className="modal-dialog modal-dialog-centered" role="document">

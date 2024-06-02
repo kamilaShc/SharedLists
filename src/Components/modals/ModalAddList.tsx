@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { List } from "../../model";
 import ModalConstructor from "../../helpers/ModalConstructor";
+import { hideModal } from "../../helpers/ModalVisibility";
 
 interface Props {
   setListArray: React.Dispatch<React.SetStateAction<List[]>>;
@@ -17,7 +18,11 @@ export default function ModalAddList({ setListArray, listArray }: Props) {
       { id: Date.now(), name: listName, items: [], isSelected: false },
     ]);
     setListName("");
-    $("#addListModal").modal("hide");
+    hideModal("addListModal");
+  };
+
+  const handleClose = () => {
+    hideModal("addListModal");
   };
 
   return (
@@ -30,6 +35,7 @@ export default function ModalAddList({ setListArray, listArray }: Props) {
       name={listName}
       setName={setListName}
       maxLength={50}
+      onClose={handleClose}
     />
   );
 }

@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { Item, List } from "../../model";
 import ModalConstructor from "../../helpers/ModalConstructor";
+import { hideModal, showModal } from "../../helpers/ModalVisibility";
 
 interface Props {
   itemToEdit: Item;
@@ -8,6 +9,7 @@ interface Props {
   setSelectedList: React.Dispatch<React.SetStateAction<List | null>>;
   setListArray: React.Dispatch<React.SetStateAction<List[]>>;
   listArray: List[];
+  setSelectedEditItem: React.Dispatch<React.SetStateAction<Item | null>>;
 }
 
 export default function ModalChangeItem({
@@ -16,8 +18,13 @@ export default function ModalChangeItem({
   setListArray,
   setSelectedList,
   listArray,
+  setSelectedEditItem,
 }: Props) {
   const [itemName, setItemName] = useState<string>(itemToEdit.name);
+
+  useEffect(() => {
+    showModal("changeItemModal");
+  }, []);
 
   useEffect(() => {
     setItemName(itemToEdit.name);
@@ -35,8 +42,13 @@ export default function ModalChangeItem({
 
     setSelectedList(updatedList);
     setListArray(updatedListArray);
+    setSelectedEditItem(null);
+    hideModal("changeItemModal");
+  };
 
-    $("#changeItemModal").modal("hide");
+  const handleClose = () => {
+    setSelectedEditItem(null);
+    hideModal("changeItemModal");
   };
 
   return (
@@ -49,6 +61,7 @@ export default function ModalChangeItem({
       name={itemName}
       setName={setItemName}
       maxLength={50}
+      onClose={handleClose}
     />
   );
 }

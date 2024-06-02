@@ -1,5 +1,6 @@
 import { useState } from "react";
 import ModalConstructor from "../../helpers/ModalConstructor";
+import { hideModal } from "../../helpers/ModalVisibility";
 
 interface Props {
   addItemToList: (item: string) => void;
@@ -12,7 +13,11 @@ export default function ModalAddItem({ addItemToList }: Props) {
     e.preventDefault();
     addItemToList(itemName);
     setItemName("");
-    $("#addItemModal").modal("hide");
+    hideModal("addItemModal");
+  };
+
+  const handleClose = () => {
+    hideModal("addItemModal");
   };
 
   return (
@@ -25,6 +30,7 @@ export default function ModalAddItem({ addItemToList }: Props) {
       name={itemName}
       setName={setItemName}
       maxLength={50}
+      onClose={handleClose}
     />
   );
 }

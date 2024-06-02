@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { List } from "../model";
 import ModalConfirmDelete from "./modals/ModalConfirmDelete";
+import { showModal } from "../helpers/ModalVisibility";
 
 interface Props {
   list: List;
@@ -19,9 +20,6 @@ export default function SingleList({
 
   const handleEdit = (listToEdit: List) => {
     setSelectedEditList(listToEdit);
-    $("#changeListModal").modal("show");
-    // document.body.classList.add("modal-open");
-    // document.getElementById("changeListModal").style.display = "block";
   };
 
   const handleDeleteClick = () => {
