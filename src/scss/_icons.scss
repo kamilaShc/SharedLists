@@ -1,0 +1,17 @@
+.fa-plus {
+  color: $dark-text-color;
+}
+
+.fa-plus {
+  color: $dark-text-color;
+  &:hover {
+    cursor: pointer;
+  }
+}
+
+.icons {
+  display: flex;
+  width: 10%;
+  gap: 8px;
+  justify-content: end;
+}

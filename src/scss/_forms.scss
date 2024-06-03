@@ -1,0 +1,19 @@
+form {
+  display: flex;
+  justify-content: space-between;
+
+  .input-div {
+    min-width: 80%;
+    margin-right: 10px;
+    min-height: 35px;
+  }
+  button {
+    align-self: flex-start;
+  }
+  input {
+    width: 100%;
+  }
+  .validation-warning {
+    color: $red-color;
+  }
+}

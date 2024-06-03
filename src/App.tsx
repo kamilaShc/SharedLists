@@ -1,4 +1,4 @@
-import "./scss/styles.scss";
+import "./scss/main.scss";
 import { Header } from "./Components/Header";
 import { Main } from "./Components/Main";
 

@@ -1,6 +1,5 @@
 import { useState } from "react";
 import { validateMaxLength } from "./validation";
-import Modal from "react-bootstrap/Modal";
 
 interface Props {
   modalId: string;

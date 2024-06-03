@@ -1,0 +1,5 @@
+@mixin font-headers($style) {
+  font-family: "Itim", cursive;
+  font-weight: 400;
+  font-style: $style;
+}

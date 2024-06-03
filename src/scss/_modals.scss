@@ -1,0 +1,28 @@
+.modal-header {
+  justify-content: space-between;
+  color: $dark-text-color;
+  padding: 8px 16px;
+  .close {
+    @include font-headers(regular);
+    color: $dark-text-color;
+    font-size: 25px;
+    border-width: 0;
+    background: none;
+    padding: 0;
+  }
+}
+
+// Confirm Delete Modal
+#confirmDeleteModal {
+  .modal-header {
+    justify-content: right;
+  }
+
+  .modal-buttons-right {
+    margin-top: 8px;
+    text-align: right;
+    & button {
+      margin-left: 10px;
+    }
+  }
+}
