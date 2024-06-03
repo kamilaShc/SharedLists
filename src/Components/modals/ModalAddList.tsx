@@ -1,22 +1,17 @@
 import { useState } from "react";
-import { List } from "../../model";
 import ModalConstructor from "../../helpers/ModalConstructor";
 import { hideModal } from "../../helpers/ModalVisibility";
 
 interface Props {
-  setListArray: React.Dispatch<React.SetStateAction<List[]>>;
-  listArray: List[];
+  addList: (listName: string) => void;
 }
 
-export default function ModalAddList({ setListArray, listArray }: Props) {
+export default function ModalAddList({ addList }: Props) {
   const [listName, setListName] = useState<string>("");
 
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    setListArray([
-      ...listArray,
-      { id: Date.now(), name: listName, items: [], isSelected: false },
-    ]);
+    addList(listName);
     setListName("");
     hideModal("addListModal");
   };

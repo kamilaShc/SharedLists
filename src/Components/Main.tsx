@@ -6,6 +6,7 @@ import { Item, List } from "../model";
 import { useState } from "react";
 import ModalChangeList from "./modals/ModalChangeList";
 import ModalChangeItem from "./modals/ModalChangeItem";
+import { v4 as uuidv4 } from "uuid";
 
 interface Props {
   listArray: List[];
@@ -23,11 +24,18 @@ export const Main = ({ listArray, setListArray }: Props) => {
     list.isSelected = true;
   };
 
+  const addList = (listName: string) => {
+    setListArray([
+      ...listArray,
+      { id: uuidv4(), name: listName, items: [], isSelected: false },
+    ]);
+  };
+
   const addItemToList = (item: string) => {
     if (selectedList) {
       const updatedList = {
         ...selectedList,
-        items: [...selectedList.items, { id: Date.now(), name: item }],
+        items: [...selectedList.items, { id: uuidv4(), name: item }],
       };
       const updatedListArray = listArray.map((list) =>
         list.id === selectedList.id ? updatedList : list
@@ -115,7 +123,7 @@ export const Main = ({ listArray, setListArray }: Props) => {
           )}
         </div>
       </div>
-      <ModalAddList listArray={listArray} setListArray={setListArray} />
+      <ModalAddList addList={addList} />
       {selectedEditList && (
         <ModalChangeList
           listToEdit={selectedEditList}

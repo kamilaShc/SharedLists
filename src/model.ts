@@ -1,11 +1,11 @@
 export interface List {
-  id: number;
+  id: string;
   name: string;
   items: Item[];
   isSelected: boolean;
 }
 
 export interface Item {
-  id: number;
+  id: string;
   name: string;
 }
