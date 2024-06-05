@@ -1,12 +1,17 @@
-import MyLists from "./MyLists";
-import Items from "./Items";
+import { useState } from "react";
+import { v4 as uuidv4 } from "uuid";
+import { createPortal } from "react-dom";
+
+import { Item, List } from "../model";
+
+import Column from "./Column";
+import SingleList from "./SingleList";
+import SingleItem from "./SingleItem";
 import ModalAddList from "./modals/ModalAddList";
 import ModalAddItem from "./modals/ModalAddItem";
-import { Item, List } from "../model";
-import { useState } from "react";
+import ModalConfirmDelete from "./modals/ModalConfirmDelete";
 import ModalChangeList from "./modals/ModalChangeList";
 import ModalChangeItem from "./modals/ModalChangeItem";
-import { v4 as uuidv4 } from "uuid";
 
 interface Props {
   listArray: List[];
@@ -17,6 +22,12 @@ export const Main = ({ listArray, setListArray }: Props) => {
   const [selectedList, setSelectedList] = useState<List | null>(null);
   const [selectedEditList, setSelectedEditList] = useState<List | null>(null);
   const [selectedEditItem, setSelectedEditItem] = useState<Item | null>(null);
+  const [selectedDeleteList, setSelectedDeleteList] = useState<List | null>(
+    null
+  );
+  const [selectedDeleteItem, setSelectedDeleteItem] = useState<Item | null>(
+    null
+  );
 
   const selectList = (list: List) => {
     if (selectedList) selectedList.isSelected = false;
@@ -66,83 +77,108 @@ export const Main = ({ listArray, setListArray }: Props) => {
       setListArray(updatedListArray);
     }
   };
-  console.log("Main rendered");
+
+  const handleConfirmDelete = () => {
+    if (selectedDeleteList) {
+      deleteList(selectedDeleteList);
+      setSelectedDeleteList(null);
+    } else if (selectedDeleteItem) {
+      deleteItem(selectedDeleteItem);
+      setSelectedDeleteItem(null);
+    }
+  };
+
+  const handleCancelDelete = () => {
+    if (selectedDeleteList) {
+      setSelectedDeleteList(null);
+    } else if (selectedDeleteItem) {
+      setSelectedDeleteItem(null);
+    }
+  };
+
   return (
     <section className="container">
       <div className="row">
         <div className="col-6">
-          <div className="main-header">
-            <h3>My Lists</h3>
-            <i
-              className="fa-solid fa-plus"
-              data-toggle="modal"
-              data-target="#addListModal"
-            ></i>
-          </div>
-
-          <MyLists
-            listArray={listArray}
-            setSelectedEditList={setSelectedEditList}
-            deleteList={deleteList}
-            onSelect={selectList}
-          />
-          <button
-            className="big-plus"
-            data-toggle="modal"
-            data-target="#addListModal"
+          <Column
+            name={"My Lists"}
+            addModal={"#addListModal"}
+            length={listArray.length}
           >
-            +
-          </button>
+            {listArray.map((list) => (
+              <SingleList
+                list={list}
+                key={list.id}
+                onSelect={selectList}
+                deleteList={deleteList}
+                setSelectedEditList={setSelectedEditList}
+                setSelectedDeleteList={setSelectedDeleteList}
+              />
+            ))}
+          </Column>
         </div>
         <div className="col-6">
-          <div className="main-header">
-            <h3>Items</h3>
-            <i
-              className="fa-solid fa-plus"
-              data-toggle="modal"
-              data-target="#addItemModal"
-            ></i>
-          </div>
           {selectedList ? (
             <div>
-              <Items
-                selectedList={selectedList}
-                setSelectedEditItem={setSelectedEditItem}
-                deleteItem={deleteItem}
-              />
-              <button
-                className="big-plus"
-                data-toggle="modal"
-                data-target="#addItemModal"
+              <Column
+                name={"Items"}
+                addModal={"#addItemModal"}
+                length={selectedList.items.length}
               >
-                +
-              </button>
+                {selectedList &&
+                  selectedList.items.map((item) => (
+                    <SingleItem
+                      key={item.id}
+                      setSelectedEditItem={setSelectedEditItem}
+                      item={item}
+                      setSelectedDeleteItem={setSelectedDeleteItem}
+                    />
+                  ))}
+              </Column>
             </div>
           ) : (
             <p>No list is selected</p>
           )}
         </div>
       </div>
-      <ModalAddList addList={addList} />
-      {selectedEditList && (
-        <ModalChangeList
-          listToEdit={selectedEditList}
-          listArray={listArray}
-          setListArray={setListArray}
-          setSelectedEditList={setSelectedEditList}
-        />
-      )}
-      {selectedEditItem && selectedList && (
-        <ModalChangeItem
-          itemToEdit={selectedEditItem}
-          selectedList={selectedList}
-          setSelectedList={setSelectedList}
-          listArray={listArray}
-          setListArray={setListArray}
-          setSelectedEditItem={setSelectedEditItem}
-        />
-      )}
-      {selectedList && <ModalAddItem addItemToList={addItemToList} />}
+      {createPortal(<ModalAddList addList={addList} />, document.body)}
+      {selectedEditList &&
+        createPortal(
+          <ModalChangeList
+            listToEdit={selectedEditList}
+            listArray={listArray}
+            setListArray={setListArray}
+            setSelectedEditList={setSelectedEditList}
+          />,
+          document.body
+        )}
+      {selectedEditItem &&
+        selectedList &&
+        createPortal(
+          <ModalChangeItem
+            itemToEdit={selectedEditItem}
+            selectedList={selectedList}
+            setSelectedList={setSelectedList}
+            listArray={listArray}
+            setListArray={setListArray}
+            setSelectedEditItem={setSelectedEditItem}
+          />,
+          document.body
+        )}
+      {selectedList &&
+        createPortal(
+          <ModalAddItem addItemToList={addItemToList} />,
+          document.body
+        )}
+
+      {(selectedDeleteList || selectedDeleteItem) &&
+        createPortal(
+          <ModalConfirmDelete
+            onDelete={handleConfirmDelete}
+            onCancel={handleCancelDelete}
+          />,
+          document.body
+        )}
     </section>
   );
 };

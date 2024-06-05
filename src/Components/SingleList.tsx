@@ -1,38 +1,25 @@
-import { useEffect, useState } from "react";
 import { List } from "../model";
-import ModalConfirmDelete from "./modals/ModalConfirmDelete";
-import { showModal } from "../helpers/ModalVisibility";
 
 interface Props {
   list: List;
   deleteList: (listToDelete: List) => void;
   setSelectedEditList: React.Dispatch<React.SetStateAction<List | null>>;
   onSelect: (list: List) => void;
+  setSelectedDeleteList: React.Dispatch<React.SetStateAction<List | null>>;
 }
 
 export default function SingleList({
   list,
-  deleteList,
   setSelectedEditList,
   onSelect,
+  setSelectedDeleteList,
 }: Props) {
-  const [showConfirmation, setShowConfirmation] = useState<boolean>(false);
+  const handleDeleteClick = () => {
+    setSelectedDeleteList(list);
+  };
 
   const handleEdit = (listToEdit: List) => {
     setSelectedEditList(listToEdit);
-  };
-
-  const handleDeleteClick = () => {
-    setShowConfirmation(true);
-  };
-
-  const handleConfirmDelete = () => {
-    setShowConfirmation(false);
-    deleteList(list);
-  };
-
-  const handleCancelDelete = () => {
-    setShowConfirmation(false);
   };
 
   const selected = list.isSelected ? "active" : "";
@@ -65,13 +52,6 @@ export default function SingleList({
           </div>
         </div>
       </a>
-
-      {showConfirmation && (
-        <ModalConfirmDelete
-          onDelete={handleConfirmDelete}
-          onCancel={handleCancelDelete}
-        />
-      )}
     </div>
   );
 }

@@ -19,7 +19,7 @@ export default function ModalConfirmDelete({ onDelete, onCancel }: Props) {
             </button>
           </div>
           <div className="modal-body">
-            <p>Are you sure you want to delete this item?</p>
+            <p>Are you sure you want to delete?</p>
             <div className="modal-buttons-right">
               <button
                 type="button"
